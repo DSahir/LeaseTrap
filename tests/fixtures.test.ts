@@ -43,11 +43,13 @@ test("audit payload has only allowed keys", () => {
 
 test("public demo bundle is fictional, schema-valid, and quote-checked", async () => {
   const sampleDir = join(process.cwd(), "public", "samples");
-  const [text, resultJson, pdf] = await Promise.all([
+  const [text, resultJson, pdf, refsJson] = await Promise.all([
     readFile(join(sampleDir, "demo-lease.txt"), "utf8"),
     readFile(join(sampleDir, "demo-result.json"), "utf8"),
     readFile(join(sampleDir, "sample-lease.pdf")),
+    readFile(join(process.cwd(), "legal", "refs.json"), "utf8"),
   ]);
+  const knownRefs = new Set((JSON.parse(refsJson) as { id: string }[]).map((citation) => citation.id));
   const result = AuditResponseSchema.parse(JSON.parse(resultJson) as unknown);
   const scrubbed = scrubText(text, {
     tenants: [...SAMPLE_KNOWN.tenants],
@@ -65,6 +67,27 @@ test("public demo bundle is fictional, schema-valid, and quote-checked", async (
     if (clause.quote) {
       assert.equal(quoteStatus(clause.quote, scrubbed.text), "verified", clause.id);
     }
-    assert.ok(clause.ma_statute_citation.every((citation) => citation.id === "MOCK"));
+    assert.ok(clause.ma_statute_citation.every((citation) => knownRefs.has(citation.id)));
+    assert.ok(clause.legal_reference_ids.every((id) => knownRefs.has(id)));
   }
+});
+
+test("every shipped legal reference has a dated verification-log entry", async () => {
+  const [refsText, log, metaText] = await Promise.all([
+    readFile(join(process.cwd(), "legal", "refs.json"), "utf8"),
+    readFile(join(process.cwd(), "legal", "VERIFICATION_LOG.md"), "utf8"),
+    readFile(join(process.cwd(), "legal", "meta.json"), "utf8"),
+  ]);
+  const refs = JSON.parse(refsText) as { id: string; url: string }[];
+  const meta = JSON.parse(metaText) as { legal_last_verified: string };
+  const rows = [...log.matchAll(/^\| (L\d+) \|.*\| (\d{4}-\d{2}-\d{2}) \|/gm)];
+  const dates = rows.map((row) => row[2]).filter((date): date is string => date !== undefined);
+  const loggedIds = new Set(rows.map((row) => row[1]));
+
+  assert.ok(refs.length > 0);
+  for (const ref of refs) {
+    assert.ok(loggedIds.has(ref.id), `${ref.id} has a verification row`);
+    assert.ok(log.includes(ref.url), `${ref.id} URL appears in the log`);
+  }
+  assert.equal(meta.legal_last_verified, dates.sort().at(-1));
 });

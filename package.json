@@ -7,9 +7,10 @@
     "build": "node scripts/copyPdfWorker.mjs && next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "tsx --test tests/scrub.test.ts tests/restore.test.ts tests/verifyQuotes.test.ts tests/emailTemplate.test.ts tests/fixtures.test.ts",
+    "test": "tsx --test tests/scrub.test.ts tests/restore.test.ts tests/verifyQuotes.test.ts tests/emailTemplate.test.ts tests/fixtures.test.ts tests/backend.test.ts tests/eval.test.ts",
     "sample-pdf": "tsx scripts/writeSampleLeasePdf.ts",
-    "demo-bundle": "tsx scripts/writeDemoBundle.ts"
+    "demo-bundle": "tsx scripts/writeDemoBundle.ts",
+    "eval": "tsx eval/run.ts"
   },
   "dependencies": {
     "@google/genai": "^1.30.0",

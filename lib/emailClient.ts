@@ -1,6 +1,7 @@
 import { categoryLabel } from "@/lib/display";
 import type { Clause, EmailRequest, EmailResponse } from "@/lib/contract";
 import { restorePlaceholders } from "@/lib/restore";
+import { nameVariants, scrubText, type KnownNames } from "@/lib/scrub";
 
 export const MARKET_NOTE =
   "Rentals can be competitive. A landlord may keep the lease as written. This draft only asks polite questions. It does not make a demand or predict what will happen.";
@@ -11,6 +12,54 @@ export function toEmailClause(clause: Clause): EmailRequest["clauses"][number] {
     plain_english: clause.plain_english,
     question_for_landlord: clause.question_for_landlord,
     citations: clause.ma_statute_citation.map((citation) => citation.citation),
+  };
+}
+
+export function sanitizeEmailRequest(
+  input: EmailRequest,
+  placeholderMap: Record<string, string>,
+): EmailRequest {
+  const names: KnownNames = {
+    tenants: [],
+    roommates: [],
+    guarantors: [],
+    landlord: "",
+    manager: "",
+    propertyAddress: "",
+  };
+  const originals = Object.entries(placeholderMap)
+    .filter(([, original]) => original.trim().length >= 2)
+    .sort((left, right) => right[1].length - left[1].length);
+  for (const [placeholder, original] of originals) {
+    const variants = placeholder.startsWith("[TENANT_")
+      ? names.tenants
+      : placeholder.startsWith("[ROOMMATE_")
+        ? names.roommates
+        : placeholder.startsWith("[GUARANTOR_")
+          ? names.guarantors
+          : null;
+    if (variants) variants.push(...nameVariants(original));
+    else if (placeholder === "[LANDLORD]") names.landlord = original;
+    else if (placeholder === "[MANAGER]") names.manager = original;
+    else if (placeholder === "[PROPERTY_ADDRESS]") names.propertyAddress = original;
+  }
+  const sanitize = (value: string) => {
+    let text = value;
+    for (const [placeholder, original] of originals) {
+      const pattern = original.trim().split(/\s+/).map(escapeRegExp).join("\\s+");
+      text = text.replace(new RegExp(`(?<![A-Za-z0-9])${pattern}(?![A-Za-z0-9])`, "gi"), placeholder);
+    }
+    return scrubText(text, names).text;
+  };
+
+  return {
+    ...input,
+    clauses: input.clauses.map((clause) => ({
+      ...clause,
+      plain_english: sanitize(clause.plain_english),
+      question_for_landlord: sanitize(clause.question_for_landlord),
+    })),
+    ...(input.notes === undefined ? {} : { notes: sanitize(input.notes) }),
   };
 }
 
@@ -63,4 +112,8 @@ export function emailForClipboard(
   const combined = `Subject: ${draft.subject}\n\n${draft.body}`;
   if (!restore) return combined;
   return restorePlaceholders(combined, map);
+}
+
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }

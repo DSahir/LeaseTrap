@@ -204,7 +204,7 @@ export function LeaseTrapApp() {
         quoteBasis: scrubbed.text,
         quoteLabel: "the scrubbed demo text",
         result: demo.result,
-        practice: isPracticeResult(demo.result),
+        practice: true,
       });
       return;
     }
@@ -275,6 +275,28 @@ export function LeaseTrapApp() {
           Clear everything
         </button>
       </header>
+
+      <aside aria-label="Privacy and AI service terms" className="mt-5 rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm leading-6 text-slate-800">
+        <h2 className="font-semibold">Before you send lease text</h2>
+        <p className="mt-1">
+          This prototype is intended for Gemini&apos;s unpaid quota. Under Google&apos;s current terms for unpaid Gemini API use,
+          submitted prompts and responses may be used to improve services and may be reviewed by people. Google says not to
+          submit sensitive, confidential, or personal information to unpaid services. Check the preview and remove anything
+          you do not want to share.{" "}
+          <a
+            className="underline"
+            href="https://ai.google.dev/gemini-api/terms"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Read Gemini API terms
+          </a>
+          . If you configure a paid service, verify its terms and update this notice before use.
+        </p>
+        <p className="mt-2">
+          LeaseTrap does not save your lease on its server, but that does not control how an AI provider handles text it receives.
+        </p>
+      </aside>
 
       <div className="mt-6 grid gap-3 sm:grid-cols-2">
         <label className="text-sm font-medium text-slate-900">

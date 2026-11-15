@@ -1,0 +1,93 @@
+[
+  {
+    "id": "L1",
+    "title": "Amounts a landlord may require at the start of a tenancy",
+    "citation": "M.G.L. c. 186, § 15B(1)(b)",
+    "url": "https://malegislature.gov/Laws/GeneralLaws/PartII/TitleI/Chapter186/Section15B",
+    "scope_note": "Applies to residential real property. The statute permits only specified initial payments, subject to statutory exceptions and any authorized security-deposit alternative."
+  },
+  {
+    "id": "L2",
+    "title": "Security-deposit handling and tenant notices",
+    "citation": "M.G.L. c. 186, § 15B",
+    "url": "https://malegislature.gov/Laws/GeneralLaws/PartII/TitleI/Chapter186/Section15B",
+    "scope_note": "Covers statutory receipt, account, interest, recordkeeping, and related requirements for residential security deposits."
+  },
+  {
+    "id": "L3",
+    "title": "Statement of condition for a security deposit",
+    "citation": "M.G.L. c. 186, § 15B(2)(c)",
+    "url": "https://malegislature.gov/Laws/GeneralLaws/PartII/TitleI/Chapter186/Section15B",
+    "scope_note": "Applies when a residential lessor accepts a security deposit; the statutory timing and tenant response period are specific."
+  },
+  {
+    "id": "L4",
+    "title": "Return of security deposit and deductions",
+    "citation": "M.G.L. c. 186, § 15B",
+    "url": "https://malegislature.gov/Laws/GeneralLaws/PartII/TitleI/Chapter186/Section15B",
+    "scope_note": "Rules and exceptions are detailed; a lease review cannot determine whether a particular deduction is justified."
+  },
+  {
+    "id": "L5",
+    "title": "Remedies for certain security-deposit violations",
+    "citation": "M.G.L. c. 186, § 15B",
+    "url": "https://malegislature.gov/Laws/GeneralLaws/PartII/TitleI/Chapter186/Section15B",
+    "scope_note": "The statute provides different remedies for specific violations; do not infer a remedy from a clause alone."
+  },
+  {
+    "id": "L6",
+    "title": "Timing of rent penalties",
+    "citation": "M.G.L. c. 186, § 15B(1)(c)",
+    "url": "https://malegislature.gov/Laws/GeneralLaws/PartII/TitleI/Chapter186/Section15B",
+    "scope_note": "The text addresses interest or penalties for failure to pay rent; it does not resolve every kind of fee."
+  },
+  {
+    "id": "L7",
+    "title": "Entry, quiet enjoyment, and services",
+    "citation": "M.G.L. c. 186, §§ 14 and 15B(1)(a)",
+    "url": "https://malegislature.gov/Laws/GeneralLaws/PartII/TitleI/Chapter186/Section14",
+    "scope_note": "Section 14 applies to residential premises within its terms; Section 15B(1)(a) addresses permitted landlord entry before a lease ends. The statutes do not establish one general notice period for every entry."
+  },
+  {
+    "id": "L9",
+    "title": "Certain statutory protections cannot be waived",
+    "citation": "M.G.L. c. 186, §§ 14 and 18",
+    "url": "https://malegislature.gov/Laws/GeneralLaws/PartII/TitleI/Chapter186/Section18",
+    "scope_note": "Only the specific provisions and exceptions stated in those sections are covered; this is not a general rule that all lease terms are non-waivable."
+  },
+  {
+    "id": "L10",
+    "title": "Certain tenant claims and defenses in possession cases",
+    "citation": "M.G.L. c. 239, § 8A",
+    "url": "https://malegislature.gov/Laws/GeneralLaws/PartIII/TitleIII/Chapter239/Section8A",
+    "scope_note": "This provision concerns claims or defenses in specified possession actions and includes conditions and procedures. It is not a general habitability checklist or advice to withhold rent."
+  },
+  {
+    "id": "L11",
+    "title": "Protection from retaliation for specified tenant activity",
+    "citation": "M.G.L. c. 186, § 18",
+    "url": "https://malegislature.gov/Laws/GeneralLaws/PartII/TitleI/Chapter186/Section18",
+    "scope_note": "Covers specified reporting, legal, utility, and tenant-organization activity; the statute includes a rebuttable presumption and exceptions."
+  },
+  {
+    "id": "L15",
+    "title": "Interest on last month's rent paid in advance",
+    "citation": "M.G.L. c. 186, § 15B(2)(a)",
+    "url": "https://malegislature.gov/Laws/GeneralLaws/PartII/TitleI/Chapter186/Section15B",
+    "scope_note": "Applies to rent paid in advance for the last month of a tenancy; statutory rates, payment timing, and exceptions matter."
+  },
+  {
+    "id": "L18",
+    "title": "Notice to end an estate at will",
+    "citation": "M.G.L. c. 186, § 12",
+    "url": "https://malegislature.gov/Laws/GeneralLaws/PartII/TitleI/Chapter186/Section12",
+    "scope_note": "This section concerns estates at will and is not a general termination rule for every fixed-term lease."
+  },
+  {
+    "id": "L19",
+    "title": "Residential services and utilities",
+    "citation": "M.G.L. c. 186, § 14",
+    "url": "https://malegislature.gov/Laws/GeneralLaws/PartII/TitleI/Chapter186/Section14",
+    "scope_note": "Covers specified services and circumstances under the statute; separate laws may govern particular utilities or building conditions."
+  }
+]

@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LeaseTrap
 
-## Getting Started
+LeaseTrap is an educational Massachusetts lease-reading prototype. It is not legal advice. See the [SRS](./docs/LeaseTrap_SRS.md), [Person A tasks](./docs/Person_A_Task.md), [verified legal pack](./legal/ma_tenant_law.md), and [sample answer key](./SAMPLES.md).
 
-First, run the development server:
+## Local development
+
+Install dependencies, copy `.env.example` to `.env.local`, and set a Gemini API key privately. Never paste the key into chat or commit `.env.local`. The project is intended to use Gemini's unpaid quota with billing disabled. The UI discloses Google's current unpaid-service data terms: submitted prompts and outputs may be used to improve services and may be human-reviewed. Do not send sensitive, confidential, or personal information. If a paid Gemini service is configured, verify its terms and update the user-facing disclosure first.
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+`AUDIT_DISABLED=true` disables both model-backed POST routes. `npm test`, `npm run lint`, and `npm run build` validate the local project. The API limits are best-effort in-memory protections; they are not shared across serverless instances. Audit and email routes declare a 60-second maximum. Vercel's [official limits page](https://vercel.com/docs/functions/limitations#max-duration), last updated 2026-08-24, lists a 300-second Hobby maximum; the shorter route setting is intentional. No deployment configuration or release is included.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+To run the model evaluation, set `GEMINI_API_KEY` in `.env.local` and run:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run eval
+```
 
-## Learn More
+The evaluation runner performs three evaluation runs per sample lease, logs aggregate metrics only, and does not print lease text. It matches expected findings by category and quoted lease wording (or explicit missing-issue terms), not by model-generated IDs. Recall, precision, and quote/citation metrics are averaged across the three runs; variance compares semantic finding keys. The answer keys are provisional and have not received an independent review.
 
-To learn more about Next.js, take a look at the following resources:
+## API routes
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `POST /api/audit` accepts the frozen `AuditRequestSchema`.
+- `POST /api/email` accepts the frozen `EmailRequestSchema`.
+- `GET /api/health` returns `{ "status": "ok" }`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+All routes return `Cache-Control: no-store`; errors use the frozen API error codes. API body and rate limits are defined in `lib/limits.ts`.
 
-## Deploy on Vercel
+Official Gemini data terms: [Gemini API Additional Terms of Service](https://ai.google.dev/gemini-api/terms).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Next.js
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project uses Next.js 16.4.6 App Router. Read local Next.js documentation under `node_modules/next/dist/docs/` before making framework changes.
+
+## Deployment
+
+Deployment is intentionally out of scope for this work.

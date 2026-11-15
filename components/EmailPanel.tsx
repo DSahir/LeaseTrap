@@ -33,7 +33,7 @@ export function EmailPanel({
     setStatus("loading");
     setMessage(null);
     try {
-      const next = await requestEmail(request);
+      const next = await requestEmail(request, undefined, getMap());
       setDraft(next);
       setStatus("ready");
     } catch (error) {

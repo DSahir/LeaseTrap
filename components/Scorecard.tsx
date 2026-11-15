@@ -19,7 +19,7 @@ export function Scorecard({ result, practice }: { result: AuditResponse; practic
         <p className="mt-2 text-sm text-slate-800">Practice result. No lease text was sent.</p>
       ) : (
         <p className="mt-2 text-sm text-slate-800">
-          Only the scrubbed text was sent, plus the town and tenancy type you chose.
+          Only the scrubbed text, town, and tenancy type were sent. The AI provider may process submitted text under its own terms; see the privacy notice above.
         </p>
       )}
       <p className="mt-3 leading-7 text-slate-800">{result.summary}</p>

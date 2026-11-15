@@ -10,6 +10,7 @@ import {
   type EmailRequest,
   type EmailResponse,
 } from "@/lib/contract";
+import { sanitizeEmailRequest } from "@/lib/emailClient";
 
 const STATUS_CODES = {
   400: "BAD_REQUEST",
@@ -48,14 +49,19 @@ export async function requestAudit(input: {
   return postJson("/api/audit", parsed.data, AuditResponseSchema, LIMITS.auditTimeoutMs, input.signal);
 }
 
-export async function requestEmail(input: EmailRequest, signal?: AbortSignal): Promise<EmailResponse> {
+export async function requestEmail(
+  input: EmailRequest,
+  signal?: AbortSignal,
+  placeholderMap: Record<string, string> = {},
+): Promise<EmailResponse> {
   const parsed = EmailRequestSchema.safeParse(input);
   if (!parsed.success) throw new Error(FRIENDLY_ERRORS.BAD_REQUEST);
   if (isMockApiEnabled()) {
     const { buildLocalEmail } = await import("@/lib/emailClient");
     return buildLocalEmail(parsed.data);
   }
-  return postJson("/api/email", parsed.data, EmailResponseSchema, LIMITS.emailTimeoutMs, signal);
+  const safeRequest = sanitizeEmailRequest(parsed.data, placeholderMap);
+  return postJson("/api/email", safeRequest, EmailResponseSchema, LIMITS.emailTimeoutMs, signal);
 }
 
 export async function loadDemoBundle(): Promise<{ text: string; result: AuditResponse } | null> {
