@@ -277,12 +277,13 @@ export function LeaseTrapApp() {
       </header>
 
       <aside aria-label="Privacy and AI service terms" className="mt-5 rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm leading-6 text-slate-800">
-        <h2 className="font-semibold">Before you send lease text</h2>
+        <h2 className="font-semibold">Privacy before sending</h2>
         <p className="mt-1">
-          This prototype is intended for Gemini&apos;s unpaid quota. Under Google&apos;s current terms for unpaid Gemini API use,
-          submitted prompts and responses may be used to improve services and may be reviewed by people. Google says not to
-          submit sensitive, confidential, or personal information to unpaid services. Check the preview and remove anything
-          you do not want to share.{" "}
+          Your PDF is read and scrubbed on this device. Review the preview because masking can miss details. When you
+          choose Analyze, the scrubbed text, town, and tenancy type are sent to Gemini; Write draft sends only the selected
+          clause details. Under Google&apos;s current unpaid
+          service terms, prompts and responses may be used to improve services and may be reviewed by people. Don&apos;t send
+          sensitive, confidential, or personal information.{" "}
           <a
             className="underline"
             href="https://ai.google.dev/gemini-api/terms"
@@ -291,10 +292,7 @@ export function LeaseTrapApp() {
           >
             Read Gemini API terms
           </a>
-          . If you configure a paid service, verify its terms and update this notice before use.
-        </p>
-        <p className="mt-2">
-          LeaseTrap does not save your lease on its server, but that does not control how an AI provider handles text it receives.
+          . LeaseTrap does not persist lease text on its server, but cannot control how Google handles data it receives.
         </p>
       </aside>
 
@@ -372,14 +370,23 @@ export function LeaseTrapApp() {
             disabled={flow.status === "reading" || flow.status === "loading"}
             onClick={() => void loadSample()}
           >
-            Load sample lease
+            Try fictional demo
           </button>
+          <p className="text-sm leading-6 text-slate-700">
+            Opens a saved practice result without an AI call. To test live analysis, choose a PDF or paste text, review the scrubbed preview, then select Analyze.
+          </p>
         </div>
       ) : null}
 
-      {flow.status === "reading" ? <p className="mt-6 text-sm text-slate-800">Reading the PDF on this device...</p> : null}
+      {flow.status === "reading" ? (
+        <p className="mt-6 flex items-center gap-2 text-sm text-slate-800" role="status">
+          <span aria-hidden="true" className="size-4 animate-spin rounded-full border-2 border-slate-300 border-t-slate-800" />
+          Reading the PDF on this device...
+        </p>
+      ) : null}
       {flow.status === "loading" ? (
-        <p className="mt-6 text-sm text-slate-800" role="status">
+        <p className="mt-6 flex items-center gap-2 text-sm text-slate-800" role="status">
+          <span aria-hidden="true" className="size-4 animate-spin rounded-full border-2 border-slate-300 border-t-slate-800" />
           Analyzing the scrubbed text... this can take up to a minute.
         </p>
       ) : null}
@@ -425,8 +432,11 @@ export function LeaseTrapApp() {
 
       {result && flow.status === "result" ? (
         <div className="mt-6 space-y-4">
+          <p className="rounded-lg border border-slate-200 bg-white p-4 text-sm leading-6 text-slate-700">
+            LeaseTrap explains lease language and points to laws that may be relevant. It can make mistakes and may miss problems. It is not legal advice. For help with your specific situation, contact a free tenant resource below.
+          </p>
           <p className="text-sm leading-6 text-slate-700">
-            Educational reading only. This does not say a clause is legal, and it does not predict what would happen in a dispute. Quotes were checked against {flow.quoteLabel}.
+            Quotes were checked against {flow.quoteLabel}.
           </p>
           <Scorecard result={result} practice={practice} />
           {sorted.length === 0 ? (
