@@ -1,0 +1,211 @@
+{
+  "summary": "This practice reading found several fees and rules that are worth a question before signing. One deposit sentence looks like a more ordinary protection. A saved practice file is not a review of your own lease.",
+  "counts": {
+    "high": 5,
+    "worth_asking": 2,
+    "standard": 1,
+    "possibly_missing": 1
+  },
+  "clauses": [
+    {
+      "id": "fee-late",
+      "level": "HIGH",
+      "category": "FEES",
+      "quote": "A late fee of $50 is due if rent is paid after the 5th day of the month.",
+      "plain_english": "The sample charges a $50 late fee when rent is paid after the 5th. That timing may be earlier than people expect. Ask before you treat it as allowed.",
+      "legal_reference_ids": [
+        "MOCK"
+      ],
+      "why_flagged": "The fee starts on the 5th, which is a short grace period.",
+      "confidence": "HIGH",
+      "question_for_landlord": "Could you confirm when a late fee can start, and whether this $50 fee can be removed or delayed?",
+      "ma_statute_citation": [
+        {
+          "id": "MOCK",
+          "title": "MOCK practice citation",
+          "citation": "MOCK",
+          "url": "https://www.mass.gov/guides/landlord-rights-and-responsibilities",
+          "scope_note": "MOCK placeholder for the interface. This is not a legal citation."
+        }
+      ]
+    },
+    {
+      "id": "fee-turnover",
+      "level": "HIGH",
+      "category": "FEES",
+      "quote": "Tenant shall pay a turnover stipend of $400 at move-in.",
+      "plain_english": "A $400 turnover stipend is due at move-in. Extra move-in charges are worth asking about, because only some upfront payments are commonly allowed.",
+      "legal_reference_ids": [
+        "MOCK"
+      ],
+      "why_flagged": "The stipend is an extra charge at the start of the tenancy.",
+      "confidence": "HIGH",
+      "question_for_landlord": "Could you confirm what the turnover stipend pays for, and whether it can be removed?",
+      "ma_statute_citation": [
+        {
+          "id": "MOCK",
+          "title": "MOCK practice citation",
+          "citation": "MOCK",
+          "url": "https://www.mass.gov/guides/landlord-rights-and-responsibilities",
+          "scope_note": "MOCK placeholder for the interface. This is not a legal citation."
+        }
+      ]
+    },
+    {
+      "id": "deposit-amount",
+      "level": "HIGH",
+      "category": "SECURITY_DEPOSIT",
+      "quote": "The security deposit is $2,400.",
+      "plain_english": "The deposit is $2,400 while rent is $1,600. A deposit above one month of rent is a common reason to ask a question.",
+      "legal_reference_ids": [
+        "MOCK"
+      ],
+      "why_flagged": "The deposit is larger than one month of the stated rent.",
+      "confidence": "HIGH",
+      "question_for_landlord": "Could you confirm whether the deposit can be lowered to one month of rent?",
+      "ma_statute_citation": [
+        {
+          "id": "MOCK",
+          "title": "MOCK practice citation",
+          "citation": "MOCK",
+          "url": "https://www.mass.gov/guides/landlord-rights-and-responsibilities",
+          "scope_note": "MOCK placeholder for the interface. This is not a legal citation."
+        }
+      ]
+    },
+    {
+      "id": "fee-cleaning",
+      "level": "HIGH",
+      "category": "FEES",
+      "quote": "Tenant shall pay a non-refundable professional cleaning fee of $250 before receiving keys.",
+      "plain_english": "A non-refundable $250 cleaning fee is due before keys are handed over. Non-refundable move-in fees are worth a direct question.",
+      "legal_reference_ids": [
+        "MOCK"
+      ],
+      "why_flagged": "The fee is non-refundable and due up front.",
+      "confidence": "HIGH",
+      "question_for_landlord": "Could you confirm whether this cleaning fee is required, and whether it can be removed?",
+      "ma_statute_citation": [
+        {
+          "id": "MOCK",
+          "title": "MOCK practice citation",
+          "citation": "MOCK",
+          "url": "https://www.mass.gov/guides/landlord-rights-and-responsibilities",
+          "scope_note": "MOCK placeholder for the interface. This is not a legal citation."
+        }
+      ]
+    },
+    {
+      "id": "entry-anytime",
+      "level": "HIGH",
+      "category": "ENTRY",
+      "quote": "Landlord may enter the apartment at any time without notice.",
+      "plain_english": "The sample lets the landlord enter at any time without notice. Entry rules are worth confirming before you sign.",
+      "legal_reference_ids": [
+        "MOCK"
+      ],
+      "why_flagged": "The sentence gives no notice period.",
+      "confidence": "HIGH",
+      "question_for_landlord": "Could you confirm how much notice you will give before entering, except in an emergency?",
+      "ma_statute_citation": [
+        {
+          "id": "MOCK",
+          "title": "MOCK practice citation",
+          "citation": "MOCK",
+          "url": "https://www.mass.gov/guides/landlord-rights-and-responsibilities",
+          "scope_note": "MOCK placeholder for the interface. This is not a legal citation."
+        }
+      ]
+    },
+    {
+      "id": "renewal-90",
+      "level": "WORTH_ASKING",
+      "category": "RENEWAL",
+      "quote": "This lease renews automatically for 12 months unless Tenant gives 90 days written notice.",
+      "plain_english": "The lease renews for a full year unless the tenant gives 90 days of written notice. That is a long lead time, so it is worth asking if a shorter notice is possible.",
+      "legal_reference_ids": [
+        "MOCK"
+      ],
+      "why_flagged": "Automatic renewal plus a 90-day notice is easy to miss.",
+      "confidence": "MEDIUM",
+      "question_for_landlord": "Could you confirm the notice deadline, and whether a shorter notice period is acceptable?",
+      "ma_statute_citation": [
+        {
+          "id": "MOCK",
+          "title": "MOCK practice citation",
+          "citation": "MOCK",
+          "url": "https://www.mass.gov/guides/landlord-rights-and-responsibilities",
+          "scope_note": "MOCK placeholder for the interface. This is not a legal citation."
+        }
+      ]
+    },
+    {
+      "id": "joint-liability",
+      "level": "WORTH_ASKING",
+      "category": "LIABILITY",
+      "quote": "All tenants are jointly and severally liable for the full rent and all other charges.",
+      "plain_english": "Any one tenant may be asked for the full rent, not only a share. That is common language and still worth understanding before you sign.",
+      "legal_reference_ids": [
+        "MOCK"
+      ],
+      "why_flagged": "Joint and several liability is a shared-risk term, treated as worth asking about.",
+      "confidence": "MEDIUM",
+      "question_for_landlord": "Could you confirm that each tenant can be asked for the full rent if a roommate does not pay?",
+      "ma_statute_citation": [
+        {
+          "id": "MOCK",
+          "title": "MOCK practice citation",
+          "citation": "MOCK",
+          "url": "https://www.mass.gov/guides/landlord-rights-and-responsibilities",
+          "scope_note": "MOCK placeholder for the interface. This is not a legal citation."
+        }
+      ]
+    },
+    {
+      "id": "deposit-account",
+      "level": "STANDARD",
+      "category": "SECURITY_DEPOSIT",
+      "quote": "The security deposit shall be held in a separate interest-bearing account.",
+      "plain_english": "The sample says the deposit sits in its own interest-bearing account. That is a more ordinary protection. You can still ask for the bank name in writing.",
+      "legal_reference_ids": [
+        "MOCK"
+      ],
+      "why_flagged": "Included as a contrast: this sentence is the sample's more protective clause.",
+      "confidence": "HIGH",
+      "question_for_landlord": "Could you confirm the bank name for that separate account before move-in?",
+      "ma_statute_citation": [
+        {
+          "id": "MOCK",
+          "title": "MOCK practice citation",
+          "citation": "MOCK",
+          "url": "https://www.mass.gov/guides/landlord-rights-and-responsibilities",
+          "scope_note": "MOCK placeholder for the interface. This is not a legal citation."
+        }
+      ]
+    },
+    {
+      "id": "missing-condition",
+      "level": "POSSIBLY_MISSING",
+      "category": "DISCLOSURES",
+      "quote": null,
+      "plain_english": "We did not find a statement of condition that describes the apartment at move-in. It may be in a page we did not read, or it may be missing.",
+      "legal_reference_ids": [
+        "MOCK"
+      ],
+      "why_flagged": "No statement-of-condition sentence was found in the sample text.",
+      "confidence": "LOW",
+      "question_for_landlord": "Could you confirm whether you will provide a statement of condition at move-in?",
+      "ma_statute_citation": [
+        {
+          "id": "MOCK",
+          "title": "MOCK practice citation",
+          "citation": "MOCK",
+          "url": "https://www.mass.gov/guides/landlord-rights-and-responsibilities",
+          "scope_note": "MOCK placeholder for the interface. This is not a legal citation."
+        }
+      ]
+    }
+  ],
+  "unsupported_notes": [],
+  "legal_last_verified": "2026-01-15"
+}
