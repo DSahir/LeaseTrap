@@ -169,3 +169,51 @@ test("quoted evaluation labels exist in their fictional source leases", async ()
     }
   }
 });
+
+test("evaluation diagnostics report missed and false-positive labels without clause text", () => {
+  const expectedAnswer: Answer = {
+    should_flag: [
+      { label: "late-fee", category: "FEES", quote: "A late fee of $50 is due after the 5th day of the month." },
+      { label: "deposit-fee", category: "SECURITY_DEPOSIT", quote: "The security deposit is one month's rent." },
+    ],
+    should_not_flag: [
+      { label: "lawful-entry", category: "ENTRY", quote: "The landlord may enter only for a purpose allowed by law." },
+    ],
+  };
+  const diagnosticSource = [
+    source,
+    "The security deposit is one month's rent.",
+    "Another clause in the fictional lease.",
+  ].join("\n");
+  const report = calculateMetrics(
+    diagnosticSource,
+    [{
+      result: {
+        clauses: [
+          clause({ id: "new-model-id" }),
+          clause({
+            id: "entry-flag",
+            category: "ENTRY",
+            quote: "The landlord may enter only for a purpose allowed by law.",
+          }),
+          clause({ id: "other-flag", category: "OTHER", quote: "Another clause in the fictional lease." }),
+        ],
+      },
+      latencyMs: 100,
+    }],
+    expectedAnswer,
+    new Set(["L6"]),
+  );
+  const serialized = JSON.stringify(report);
+
+  assert.deepEqual(report.expected_findings, [
+    { label: "late-fee", matched_runs: 1, total_runs: 1 },
+    { label: "deposit-fee", matched_runs: 0, total_runs: 1 },
+  ]);
+  assert.deepEqual(report.expected_clean_clause_flags, [
+    { label: "lawful-entry", flagged_runs: 1, total_runs: 1 },
+  ]);
+  assert.deepEqual(report.unclassified_flags_by_category, [{ category: "OTHER", count: 1 }]);
+  assert.equal(serialized.includes("Another clause in the fictional lease."), false);
+  assert.equal(serialized.includes("A late fee of $50"), false);
+});

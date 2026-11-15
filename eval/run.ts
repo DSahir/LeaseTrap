@@ -4,6 +4,7 @@ import { loadEnvConfig } from "@next/env";
 import { SAMPLE_KNOWN } from "../content/sampleLease.ts";
 import { AuditModelFailure, runAudit } from "../lib/audit.ts";
 import { ApiFault } from "../lib/apiServer.ts";
+import { AUDIT_PROMPT_VERSION } from "../lib/prompt.ts";
 import { calculateMetrics, type Answer } from "./scoring.ts";
 import { GeminiRequestError } from "../lib/gemini.ts";
 import { scrubText } from "../lib/scrub.ts";
@@ -63,7 +64,7 @@ async function main(answers: Answers): Promise<void> {
     }
 
     const metrics = calculateMetrics(text, results, expected, legalIds);
-    console.log(JSON.stringify({ prompt: "v1", lease: leaseId, runs: RUNS, ...metrics }));
+    console.log(JSON.stringify({ prompt: AUDIT_PROMPT_VERSION, lease: leaseId, runs: RUNS, ...metrics }));
   }
 }
 

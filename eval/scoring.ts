@@ -1,6 +1,7 @@
 import type { Clause } from "../lib/contract.ts";
 
 export type ExpectedFinding = {
+  label?: string;
   category: Clause["category"];
   quote?: string;
   level?: Clause["level"];
@@ -23,8 +24,19 @@ export function scoreRun(
   legalIds: Set<string>,
 ) {
   const flagged = clauses.filter((clause) => clause.level !== "STANDARD");
-  const expectedMatches = matchExpected(flagged, answer.should_flag);
-  const notExpectedMatches = matchExpected(flagged, answer.should_not_flag);
+  const expectedMatchedIndices = matchExpectedIndices(flagged, answer.should_flag);
+  const cleanCandidateIndices = flagged
+    .map((_, index) => index)
+    .filter((index) => !expectedMatchedIndices.has(index));
+  const cleanCandidateMatches = matchExpectedIndices(
+    cleanCandidateIndices.map((index) => flagged[index]!),
+    answer.should_not_flag,
+  );
+  const cleanMatchedIndices = new Set(
+    [...cleanCandidateMatches].map((candidateIndex) => cleanCandidateIndices[candidateIndex]!),
+  );
+  const expectedMatches = expectedMatchedIndices.size;
+  const notExpectedMatches = cleanMatchedIndices.size;
   const quoteClauses = flagged.filter((clause) => clause.quote !== null);
   const validQuotes = quoteClauses.filter((clause) =>
     normalize(source).includes(normalize(clause.quote ?? "")),
@@ -41,6 +53,11 @@ export function scoreRun(
     findings_matched: expectedMatches,
     findings_expected: answer.should_flag.length,
     findings_flagged: flagged.length,
+    matched_expected_labels: labelsAt(answer.should_flag, expectedMatchedIndices),
+    matched_clean_labels: labelsAt(answer.should_not_flag, cleanCandidateMatches),
+    unclassified_flag_categories: flagged
+      .filter((_, index) => !expectedMatchedIndices.has(index) && !cleanMatchedIndices.has(index))
+      .map((clause) => clause.category),
   };
 }
 
@@ -59,6 +76,22 @@ export function calculateMetrics(
   );
   const baseline = JSON.stringify(keysByRun[0] ?? []);
   const variedRuns = keysByRun.slice(1).filter((keys) => JSON.stringify(keys) !== baseline).length;
+  const expectedFindings = answer.should_flag.map((finding, findingIndex) => ({
+    label: findingLabel(finding, findingIndex),
+    matched_runs: runScores.filter((score) => score.matched_expected_labels.includes(findingLabel(finding, findingIndex))).length,
+    total_runs: runs.length,
+  }));
+  const expectedCleanFindings = answer.should_not_flag.map((finding, findingIndex) => ({
+    label: findingLabel(finding, findingIndex),
+    flagged_runs: runScores.filter((score) => score.matched_clean_labels.includes(findingLabel(finding, findingIndex))).length,
+    total_runs: runs.length,
+  }));
+  const unclassifiedFlagsByCategory = new Map<string, number>();
+  for (const score of runScores) {
+    for (const category of score.unclassified_flag_categories) {
+      unclassifiedFlagsByCategory.set(category, (unclassifiedFlagsByCategory.get(category) ?? 0) + 1);
+    }
+  }
 
   return {
     recall: average(runScores.map((score) => score.recall)),
@@ -70,10 +103,14 @@ export function calculateMetrics(
     average_latency_ms: Math.round(runs.reduce((total, run) => total + run.latencyMs, 0) / Math.max(runs.length, 1)),
     average_findings_matched: average(runScores.map((score) => score.findings_matched)),
     findings_expected: answer.should_flag.length,
+    expected_findings: expectedFindings,
+    expected_clean_clause_flags: expectedCleanFindings,
+    unclassified_flags_by_category: [...unclassifiedFlagsByCategory]
+      .map(([category, count]) => ({ category, count })),
   };
 }
 
-function matchExpected(clauses: Clause[], expected: ExpectedFinding[]): number {
+function matchExpectedIndices(clauses: Clause[], expected: ExpectedFinding[]): Set<number> {
   const matched = new Set<number>();
   for (const clause of clauses) {
     const index = expected.findIndex((finding, findingIndex) =>
@@ -81,7 +118,7 @@ function matchExpected(clauses: Clause[], expected: ExpectedFinding[]): number {
     );
     if (index >= 0) matched.add(index);
   }
-  return matched.size;
+  return matched;
 }
 
 function matchesFinding(clause: Clause, expected: ExpectedFinding): boolean {
@@ -113,6 +150,14 @@ function findingKey(clause: Clause, answer: Answer): string {
     return `${clause.category}|${clause.level}|missing:${expected.match_any.map(normalize).sort().join("|")}`;
   }
   return `${clause.category}|${clause.level}|${normalize(clause.plain_english)}`;
+}
+
+function labelsAt(findings: ExpectedFinding[], indices: Set<number>): string[] {
+  return [...indices].map((index) => findingLabel(findings[index]!, index));
+}
+
+function findingLabel(finding: ExpectedFinding, index: number): string {
+  return finding.label ?? `${finding.category.toLocaleLowerCase()}-${index + 1}`;
 }
 
 function normalize(value: string): string {

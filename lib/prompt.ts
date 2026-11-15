@@ -3,12 +3,14 @@ import { join } from "node:path";
 import type { AuditRequest, EmailRequest } from "@/lib/contract";
 import type { LegalCitation } from "@/lib/legal";
 
+export const AUDIT_PROMPT_VERSION = "v3";
+
 export async function buildAuditPrompt(
   input: AuditRequest,
   legalPack: string,
   localRules: string,
 ): Promise<string> {
-  const prompt = await readFile(join(process.cwd(), "prompts", "v1.md"), "utf8");
+  const prompt = await readFile(join(process.cwd(), "prompts", `${AUDIT_PROMPT_VERSION}.md`), "utf8");
   const lease = input.text.replace(/<\/?lease>/gi, "[LEASE_TAG_REMOVED]");
   return [
     prompt.trim(),
