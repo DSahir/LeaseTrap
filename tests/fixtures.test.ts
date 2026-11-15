@@ -58,7 +58,7 @@ test("public demo bundle is fictional, schema-valid, and quote-checked", async (
     propertyAddress: SAMPLE_KNOWN.propertyAddress,
   });
 
-  assert.equal(text.trim(), SAMPLE_LEASE_TEXT);
+  assert.equal(text.replace(/\r\n/g, "\n").trim(), SAMPLE_LEASE_TEXT);
   assert.equal(pdf.subarray(0, 8).toString("ascii"), "%PDF-1.4");
   assert.ok(pdf.length <= 3 * 1024 * 1024);
   for (const clause of result.clauses) {
